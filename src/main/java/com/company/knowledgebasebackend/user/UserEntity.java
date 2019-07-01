@@ -1,6 +1,7 @@
 package com.company.knowledgebasebackend.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 public class UserEntity {
 
     @Id
@@ -27,6 +29,9 @@ public class UserEntity {
     @Size(min = 5, max = 15)
     private String username;
     private String password;
+    private int active;
+    private List<String> roles = new ArrayList<>();
+    private List<String> permissions = new ArrayList<>();
     private List<ObjectId> articles = new ArrayList<>();
     private Date registrationDate = new Date();
 }
