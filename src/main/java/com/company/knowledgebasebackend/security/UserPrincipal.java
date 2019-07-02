@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.service;
+package com.company.knowledgebasebackend.security;
 
 import com.company.knowledgebasebackend.user.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserEntityPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
     private UserEntity userEntity;
 
-    public UserEntityPrincipal(UserEntity userEntity) {
+    public UserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
 
@@ -20,13 +20,8 @@ public class UserEntityPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        this.userEntity.getPermissions().forEach(p -> {
+        this.userEntity.getRoles().forEach(p -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(p);
-            authorities.add(authority);
-        });
-
-        this.userEntity.getRoles().forEach(r -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
             authorities.add(authority);
         });
 
@@ -40,7 +35,7 @@ public class UserEntityPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEntity.getUsername();
+        return userEntity.getEmail();
     }
 
     @Override
@@ -60,6 +55,6 @@ public class UserEntityPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return userEntity.getActive() == 1;
+        return true;
     }
 }

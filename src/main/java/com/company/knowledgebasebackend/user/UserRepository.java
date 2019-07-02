@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserEntityRepository extends MongoRepository<UserEntity, ObjectId> {
-    UserEntity findByUsername(String username);
+public interface UserRepository extends MongoRepository<UserEntity, ObjectId> {
+    UserEntity findByEmail(String email);
+    boolean existsByEmail(String email);
 }

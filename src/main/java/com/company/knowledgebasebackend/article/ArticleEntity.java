@@ -21,6 +21,7 @@ public class ArticleEntity {
     private ObjectId id;
     private String title;
     private String content;
-    private List<ObjectId> contributors = new ArrayList<>();
+    private List<ObjectId> authors = new ArrayList<>();
     private Date dateCreated = new Date();
+    private Date dateModified = new Date();
 }

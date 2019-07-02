@@ -27,11 +27,8 @@ public class UserEntity {
     private String lastName;
     @Indexed(unique = true)
     @Size(min = 5, max = 15)
-    private String username;
+    private String email;
     private String password;
-    private int active;
     private List<String> roles = new ArrayList<>();
-    private List<String> permissions = new ArrayList<>();
-    private List<ObjectId> articles = new ArrayList<>();
-    private Date registrationDate = new Date();
+    private List<String> validation = new ArrayList<>();
 }
