@@ -9,7 +9,7 @@
 ###### 2. Start your MongoDB server:
 `"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe" --dbpath="c:\data\db"`
 ###### Start Robo3T. You will need to connect to the database
-<img src="https://user-images.githubusercontent.com/43550750/60669674-2de43600-9e6f-11e9-97d3-8da339012396.jpg" width="150">
+<img src="https://user-images.githubusercontent.com/43550750/60669674-2de43600-9e6f-11e9-97d3-8da339012396.jpg" width="400" height="250">
 
 ###### Now let's clone the Frontend side of the project.
 `git clone https://github.com/poposszum/knowledgebasewebapp-frontend`
