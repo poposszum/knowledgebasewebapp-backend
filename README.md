@@ -18,8 +18,10 @@
 `git clone https://github.com/poposszum/knowledgebasewebapp-frontend`
 ###### Now you need to run both the backend and frontend projects.
 ###### To start the backend server, open IntelliJ with the project loaded, and run the KnowledgebaseBackendApplication.java main class.
-######  To start the frontend server, you will need to download and install [NodeJs](https://nodejs.org/en/).
-###### After you did that open a command line in the knowledgebasewebapp-frontend folder and type
+###### To start the frontend server, you will need to download and install [NodeJs](https://nodejs.org/en/).
+###### After you did that open a command line and install Angular-CLI
+`npm install -g @angular/cli`
+###### Now you can run the frontend server. Navigate to the knowledgebasewebapp-frontend folder then type in the command line
 `ng serve`
 ###### The server should start on `localhost:4200`
 ## Disclaimer
