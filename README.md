@@ -3,7 +3,7 @@
 ###### Please follow the instructions in order to run the full project on your local machine for testing purposes.
 ### Installing
 ###### First of all you will need to clone the Backend service in order to proceed.
- `git clone https://github.com/poposszum/knowledgebasewebapp-backend/tree/login`
+ `git clone https://github.com/poposszum/knowledgebasewebapp-backend.git`
 ###### Download [MongoDB](https://www.mongodb.com/download-center/community) and [Robo3T](https://robomongo.org/) in order to set up and access a local database.
 ###### How to start MongoDB:
 ###### 1. Create database directory:
