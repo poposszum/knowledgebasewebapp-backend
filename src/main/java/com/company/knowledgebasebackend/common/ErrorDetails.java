@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.exception;
+package com.company.knowledgebasebackend.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

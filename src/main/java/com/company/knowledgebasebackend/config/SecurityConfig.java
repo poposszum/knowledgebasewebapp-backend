@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -80,6 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
+                .permitAll()
+                .antMatchers("/signin", "/signup")
                 .permitAll()
                 .antMatchers("/api/v1/auth/**")
                 .permitAll()

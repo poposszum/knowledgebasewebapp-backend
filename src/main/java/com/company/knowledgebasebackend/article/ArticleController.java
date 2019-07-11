@@ -1,6 +1,6 @@
 package com.company.knowledgebasebackend.article;
 
-import com.company.knowledgebasebackend.exception.EntityException;
+import com.company.knowledgebasebackend.common.ApiRequestException;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class ArticleController {
         List<ArticleEntity> allArticles = this.articleRepository.findAll();
 
         if (allArticles.isEmpty())
-            throw new EntityException("There are no articles in the data base");
+            throw new ApiRequestException("There are no articles in the data base");
 
         return allArticles;
     }
@@ -41,18 +41,18 @@ public class ArticleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<ArticleEntity> getArticleById(@PathVariable(value = "id") ObjectId id) throws
-            EntityException {
+            ApiRequestException {
         ArticleEntity articleEntity = articleRepository.findById(id).
-                orElseThrow(() -> new EntityException("Article with '" + id + "' ID does not exist."));
+                orElseThrow(() -> new ApiRequestException("Article with '" + id + "' ID does not exist."));
 
         return ResponseEntity.ok().body(articleEntity);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public ResponseEntity<ArticleEntity> updateArticleEntity(@PathVariable(value = "id") ObjectId id, @Valid @RequestBody ArticleEntity articleDetails) throws
-            EntityException {
+            ApiRequestException {
         ArticleEntity articleEntity = this.articleRepository.findById(id).
-                orElseThrow(() -> new EntityException("Article with '" + id + "' ID does not exist."));
+                orElseThrow(() -> new ApiRequestException("Article with '" + id + "' ID does not exist."));
 
         articleEntity.setTitle(articleDetails.getTitle());
         articleEntity.setContent(articleDetails.getContent());
@@ -63,9 +63,9 @@ public class ArticleController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public Map<String, Boolean> deleteArticleEntity(@PathVariable(value = "id") ObjectId id) throws EntityException {
+    public Map<String, Boolean> deleteArticleEntity(@PathVariable(value = "id") ObjectId id) throws ApiRequestException {
         ArticleEntity articleEntity = this.articleRepository.findById(id).
-                orElseThrow(() -> new EntityException("Article with '" + id + "' ID does not exist."));
+                orElseThrow(() -> new ApiRequestException("Article with '" + id + "' ID does not exist."));
 
         this.articleRepository.deleteById(id);
         Map<String, Boolean> response = new HashMap<>();

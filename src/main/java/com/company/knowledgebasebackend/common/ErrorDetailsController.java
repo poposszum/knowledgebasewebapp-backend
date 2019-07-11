@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.error;
+package com.company.knowledgebasebackend.common;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class Controller implements ErrorController {
+public class ErrorDetailsController implements ErrorController {
 
     @RequestMapping("/error")
     public ModelAndView handleError(HttpServletResponse response) {

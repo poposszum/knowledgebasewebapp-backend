@@ -9,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,10 +28,9 @@ public class UserEntity {
     private ObjectId id;
     private String firstName;
     private String lastName;
-    @Indexed(unique = true)
-    @Size(min = 5, max = 15)
     private String email;
     private String password;
     private List<String> roles = new ArrayList<>();
     private List<String> validation = new ArrayList<>();
+
 }

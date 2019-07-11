@@ -1,12 +1,12 @@
-package com.company.knowledgebasebackend.exception;
+package com.company.knowledgebasebackend.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class EntityException extends RuntimeException {
+public class ApiRequestException extends RuntimeException {
 
-    public EntityException(String exeption){
+    public ApiRequestException(String exeption){
         super(exeption);
     }
 }

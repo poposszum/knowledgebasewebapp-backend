@@ -1,6 +1,6 @@
 package com.company.knowledgebasebackend.user;
 
-import com.company.knowledgebasebackend.exception.EntityException;
+import com.company.knowledgebasebackend.common.ApiRequestException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class UserController {
         List<UserEntity> allUsers = userRepository.findAll();
 
         if (allUsers.isEmpty())
-            throw new EntityException("There are no users in the Data-base.");
+            throw new ApiRequestException("There are no users in the Data-base.");
 
         return allUsers;
     }
@@ -39,18 +39,18 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable(value = "id") ObjectId id) throws
-            EntityException {
+            ApiRequestException {
         UserEntity userEntity = userRepository.findById(id).
-                orElseThrow(() -> new EntityException("User with '" + id + "' ID does not exist."));
+                orElseThrow(() -> new ApiRequestException("User with '" + id + "' ID does not exist."));
 
                 return ResponseEntity.ok().body(userEntity);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public ResponseEntity<UserEntity> updateUserEntity(@PathVariable(value = "id") ObjectId id, @Valid @RequestBody UserEntity userDetails) throws
-            EntityException {
+            ApiRequestException {
         UserEntity userEntity = userRepository.findById(id).
-                orElseThrow(() -> new EntityException("User with '" + id + "' ID does not exist."));
+                orElseThrow(() -> new ApiRequestException("User with '" + id + "' ID does not exist."));
 
         userEntity.setFirstName(userDetails.getFirstName());
         userEntity.setLastName(userDetails.getLastName());
@@ -62,9 +62,9 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public Map<String, Boolean> deleteUserEntity(@PathVariable(value = "id") ObjectId id) throws EntityException {
+    public Map<String, Boolean> deleteUserEntity(@PathVariable(value = "id") ObjectId id) throws ApiRequestException {
         UserEntity userEntity = userRepository.findById(id).
-            orElseThrow(() -> new EntityException("User with '" + id + "' ID does not exist."));
+            orElseThrow(() -> new ApiRequestException("User with '" + id + "' ID does not exist."));
 
         userRepository.deleteById(id);
         Map<String, Boolean> response = new HashMap<>();
