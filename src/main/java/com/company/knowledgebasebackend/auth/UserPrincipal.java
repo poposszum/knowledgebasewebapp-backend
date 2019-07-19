@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.security;
+package com.company.knowledgebasebackend.auth;
 
 import com.company.knowledgebasebackend.user.UserEntity;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,8 @@
 package com.company.knowledgebasebackend.config;
 
-import com.company.knowledgebasebackend.security.CustomUserDetailsService;
-import com.company.knowledgebasebackend.security.JwtAuthenticationEntryPoint;
-import com.company.knowledgebasebackend.security.JwtAuthenticationFilter;
+import com.company.knowledgebasebackend.user.UserService;
+import com.company.knowledgebasebackend.auth.JwtAuthenticationEntryPoint;
+import com.company.knowledgebasebackend.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserService userService;
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
+                .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -81,12 +81,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/signin", "/signup")
+                .antMatchers("/signin", "/signup", "/forgotpassword", "/dashboard")
                 .permitAll()
                 .antMatchers("/api/v1/auth/**")
                 .permitAll()
+                .antMatchers("/api/v1/forgot-password/**")
+                .permitAll()
+                .antMatchers("/reset")
+                .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/users/**")
-                .hasRole("ADMIN")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 

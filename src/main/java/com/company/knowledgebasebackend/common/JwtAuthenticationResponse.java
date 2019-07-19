@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.payload;
+package com.company.knowledgebasebackend.common;
 
 import lombok.Data;
 

@@ -26,7 +26,7 @@ public class UserDbFiller implements CommandLineRunner {
                 .lastName("admin1")
                 .firstName("admin1")
                 .email("admin@admin.com")
-                .password(passwordEncoder.encode("admin123"))
+                .password(passwordEncoder.encode("admin123!"))
                 .roles(Arrays.asList("ADMIN", "USER"))
                 .build();
 
@@ -34,7 +34,7 @@ public class UserDbFiller implements CommandLineRunner {
                 .lastName("user1")
                 .firstName("user1")
                 .email("user@user.com")
-                .password(passwordEncoder.encode("user123"))
+                .password(passwordEncoder.encode("user123!"))
                 .roles(Arrays.asList("USER"))
                 .build();
 

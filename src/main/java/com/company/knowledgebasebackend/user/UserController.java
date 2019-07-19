@@ -1,12 +1,14 @@
 package com.company.knowledgebasebackend.user;
 
 import com.company.knowledgebasebackend.common.ApiRequestException;
+import com.company.knowledgebasebackend.auth.PasswordResetKey;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,23 +20,17 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(method = RequestMethod.GET)
     public List<UserEntity> getAll(){
         List<UserEntity> allUsers = userRepository.findAll();
 
-        if (allUsers.isEmpty())
+        if (allUsers.isEmpty()) {
             throw new ApiRequestException("There are no users in the Data-base.");
-
+        }
         return allUsers;
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public Map<String, Boolean> updateUser(@RequestBody UserEntity userEntity){
-
-        userRepository.save(userEntity);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("POST", Boolean.TRUE);
-        return response;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -44,6 +40,23 @@ public class UserController {
                 orElseThrow(() -> new ApiRequestException("User with '" + id + "' ID does not exist."));
 
                 return ResponseEntity.ok().body(userEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/resetKey")
+    public PasswordResetKey getResetKey(@RequestBody String resetKey){
+        return userService.findResetKey(resetKey);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    public List<PasswordResetKey> getResetKey(){
+            List<UserEntity> userEntityList = userRepository.findAll();
+            List<PasswordResetKey> list = new ArrayList<>();
+
+            for (UserEntity users : userEntityList){
+                list.add(users.getPasswordResetKey());
+                }
+            return list;
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")

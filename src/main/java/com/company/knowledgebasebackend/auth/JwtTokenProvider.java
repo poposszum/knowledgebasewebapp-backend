@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.security;
+package com.company.knowledgebasebackend.auth;
 
 
 import io.jsonwebtoken.*;
@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     @Value("JWTSuperSecretKey")
     private String jwtSecret;
 
-    @Value("604800000")
+    @Value("60")
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication){

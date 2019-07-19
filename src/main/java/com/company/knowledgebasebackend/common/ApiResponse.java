@@ -2,14 +2,14 @@ package com.company.knowledgebasebackend.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class ErrorDetails {
-    private Date timestamp;
+public class ApiResponse {
+
+    private Boolean success;
     private String message;
-    private String details;
 
 }

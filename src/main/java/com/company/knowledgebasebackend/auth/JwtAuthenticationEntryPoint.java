@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.security;
+package com.company.knowledgebasebackend.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
