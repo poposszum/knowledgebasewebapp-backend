@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class contains the article entities.
+ */
+
 @Document(collection = "Articles")
 @Data
 @AllArgsConstructor

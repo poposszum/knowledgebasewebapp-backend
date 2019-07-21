@@ -16,6 +16,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains the user entities.
+ */
+
 @Document(collection = "Users")
 @Data
 @AllArgsConstructor

@@ -15,48 +15,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.UUID;
+
+/**
+ * This controller handles the password reset requests.
+ */
 
 @Controller
 @RequestMapping("/api/v1/forgot-password")
 public class PasswordResetController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private AuthService authService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     @RequestMapping(method = RequestMethod.POST, value = "/generatekey")
-    public ResponseEntity<ApiResponse> generateKey(@RequestBody UserEntity userEntity, HttpServletRequest request) throws AuthException {
+    public ResponseEntity<ApiResponse> generateKey(@Valid @RequestBody UserEntity passwordReset, HttpServletRequest request) throws AuthException {
 
         try {
-            return new ResponseEntity<>(new ApiResponse(true, authService.generateKey(userEntity, request).toString()), HttpStatus.BAD_REQUEST);
-        } catch (AuthException ex) {
-            throw new AuthException(ex.getMessage());
+            return new ResponseEntity<>(new ApiResponse(true, authService.generateKey(passwordReset, request).toString()), HttpStatus.BAD_REQUEST);
+        } catch (AuthException e) {
+            throw new AuthException(e.getMessage());
         }
-
-
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> resetPassword(@RequestBody UserEntity userEntity, @RequestParam("resetKey") String resetKey) {
+    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody UserEntity passwordReset, @RequestParam("resetKey") String resetKey) throws AuthException {
 
-        PasswordResetKey passwordResetKey = userService.findResetKey(resetKey);
+        try {
+            authService.resetPassword(passwordReset, resetKey);
 
-        if (passwordResetKey == null || passwordResetKey.isExpired()) {
-            return new ResponseEntity<>(new ApiResponse(false, "Invalid password reset key."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(true, "Your password was changed successfully."), HttpStatus.OK);
+        } catch (AuthException e) {
+            throw new AuthException(e.getMessage());
         }
-
-        UserEntity user = userService.findUserByResetKey(resetKey);
-
-        user.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-
-        userService.save(user);
-
-        return new ResponseEntity<>(new ApiResponse(true, "Password reset successful"), HttpStatus.OK);
     }
 }

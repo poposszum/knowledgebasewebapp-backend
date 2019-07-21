@@ -12,10 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -36,10 +34,10 @@ public class AuthService {
 
     /**
      * The following method is logging in the users.
-     * Firstly checks if the credentials are okay, then generates the unique jwt token.
+     * Firstly checks if the credentials are correct, then generates the unique jwt token.
      */
 
-    public JwtAuthenticationResponse signin(@Valid @RequestBody UserEntity loginRequest) {
+    public JwtAuthenticationResponse signin(UserEntity loginRequest) {
 
         Authentication authentication;
 
@@ -66,7 +64,7 @@ public class AuthService {
      * saving it to the database, checks if the just created user entity could be saved to the database without any trouble.
      */
 
-    public void signup(@Valid @RequestBody UserEntity signUpRequest) throws AuthException {
+    public void signup(UserEntity signUpRequest) throws AuthException {
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
             throw new AuthException("This Email Address is already in use.");
@@ -90,7 +88,7 @@ public class AuthService {
      * This method generates a password reset link, then sends it to the user in an email.
      */
 
-    public StringBuilder generateKey(@RequestBody UserEntity userEntity, HttpServletRequest request) throws AuthException {
+    public StringBuilder generateKey(UserEntity userEntity, HttpServletRequest request) throws AuthException {
 
         String errorMsg = "Could not change password";
 
@@ -114,9 +112,23 @@ public class AuthService {
 
         userService.save(user);
 
-        StringBuilder URL = new StringBuilder(request.getRequestURL().toString() + "?resetKey=" + user.getPasswordResetKey().getResetKey());
+        return new StringBuilder(request.getRequestURL().toString() + "?resetKey=" + user.getPasswordResetKey().getResetKey());
+    }
 
-        return URL;
+    public void resetPassword(UserEntity userEntity, String resetKey) throws AuthException {
+        String errorMsg = "The password reset key is expired or invalid.";
 
+        PasswordResetKey passwordResetKey = userService.findResetKey(resetKey);
+
+        if (passwordResetKey == null || passwordResetKey.isExpired()) {
+            throw new AuthException(errorMsg);
+        }
+
+        UserEntity user = userService.findUserByResetKey(resetKey);
+
+        user.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+
+        userService.save(user);
     }
 }
+

@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+/**
+ * This controller-class handles the requests to sign up and sign in users.
+ */
+
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
@@ -30,12 +34,12 @@ public class AuthenticationController {
 
         try {
             if (jwtToken == null) {
-                throw new AuthException("Signin failed");
+                throw new AuthException("Login failed");
             }
-        } catch (AuthException ex) {
-            throw new AuthException(ex.getMessage());
-        } catch (BadCredentialsException ex){
-            throw new BadCredentialsException(ex.getMessage());
+        } catch (AuthException e) {
+            throw new AuthException(e.getMessage());
+        } catch (BadCredentialsException e){
+            throw new BadCredentialsException(e.getMessage());
         }
         return jwtToken;
     }
@@ -45,8 +49,8 @@ public class AuthenticationController {
 
         try {
             authService.signup(signUpRequest);
-        } catch (AuthException ex) {
-            throw new AuthException(ex.getMessage());
+        } catch (AuthException e) {
+            throw new AuthException(e.getMessage());
         }
         return new ResponseEntity<>(new ApiResponse(true, "Signup successful."), HttpStatus.BAD_REQUEST);
     }

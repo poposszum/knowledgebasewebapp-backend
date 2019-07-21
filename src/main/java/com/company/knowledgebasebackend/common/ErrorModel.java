@@ -11,5 +11,4 @@ public class ErrorModel {
     private Date timestamp;
     private String message;
     private String details;
-
 }
