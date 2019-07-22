@@ -49,7 +49,7 @@ public class AuthService {
                     )
             );
         } catch (BadCredentialsException ex) {
-            throw new BadCredentialsException("Login Failed");
+            throw new BadCredentialsException("Login failed");
         }
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -67,7 +67,7 @@ public class AuthService {
     public void signup(UserEntity signUpRequest) throws AuthException {
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
-            throw new AuthException("This Email Address is already in use.");
+            throw new AuthException("This Email Address is already in use");
         }
 
         UserEntity userEntity = UserEntity.builder()
@@ -90,7 +90,7 @@ public class AuthService {
 
     public StringBuilder generateKey(UserEntity userEntity, HttpServletRequest request) throws AuthException {
 
-        String errorMsg = "Could not change password";
+        String errorMsg = "Could not generate the password reset link";
 
         UserEntity user = userService.findByEmail(userEntity.getEmail());
 
@@ -112,21 +112,28 @@ public class AuthService {
 
         userService.save(user);
 
-        return new StringBuilder(request.getRequestURL().toString() + "?resetKey=" + user.getPasswordResetKey().getResetKey());
+        // this line is only for testing purposes, this will be changed soon!
+        return new StringBuilder("http://localhost:8080/changepassword?resetKey=" + user.getPasswordResetKey().getResetKey());
     }
 
-    public void resetPassword(UserEntity userEntity, String resetKey) throws AuthException {
-        String errorMsg = "The password reset key is expired or invalid.";
+    /**
+     * This method changes the password if the reset key is valid.
+     */
 
-        PasswordResetKey passwordResetKey = userService.findResetKey(resetKey);
+    public void resetPassword(ChangePasswordRequest changePasswordRequest) throws AuthException {
+        String errorMsg = "This password reset link is expired or invalid";
+
+        PasswordResetKey passwordResetKey = userService.findResetKey(changePasswordRequest.getResetKey());
 
         if (passwordResetKey == null || passwordResetKey.isExpired()) {
             throw new AuthException(errorMsg);
         }
 
-        UserEntity user = userService.findUserByResetKey(resetKey);
+        UserEntity user = userService.findUserByResetKey(changePasswordRequest.getResetKey());
 
-        user.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.getPassword()));
+
+        user.setPasswordResetKey(null);
 
         userService.save(user);
     }

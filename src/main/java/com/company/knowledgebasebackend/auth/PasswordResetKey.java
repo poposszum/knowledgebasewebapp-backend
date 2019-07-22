@@ -17,7 +17,7 @@ public class PasswordResetKey {
     public PasswordResetKey(String resetKey) {
         this.resetKey = resetKey;
         Date now = new Date();
-        this.expiryDate = new Date(now.getTime() + 600 * 1000); // first part (600) means the seconds (10 minutes), last part (1000) the transformation to milliseconds
+        this.expiryDate = new Date(now.getTime() + 600 * 1000); // first part (600) means the seconds (10 minutes), last part (1000) is the transformation to milliseconds
     }
 
     public boolean isExpired(){

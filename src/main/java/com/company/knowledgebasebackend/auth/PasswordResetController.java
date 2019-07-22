@@ -33,21 +33,20 @@ public class PasswordResetController {
     public ResponseEntity<ApiResponse> generateKey(@Valid @RequestBody UserEntity passwordReset, HttpServletRequest request) throws AuthException {
 
         try {
-            return new ResponseEntity<>(new ApiResponse(true, authService.generateKey(passwordReset, request).toString()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(true, authService.generateKey(passwordReset, request).toString()), HttpStatus.OK);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody UserEntity passwordReset, @RequestParam("resetKey") String resetKey) throws AuthException {
+    @RequestMapping(method = RequestMethod.POST, value = "/changepassword")
+    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) throws AuthException {
 
         try {
-            authService.resetPassword(passwordReset, resetKey);
-
-            return new ResponseEntity<>(new ApiResponse(true, "Your password was changed successfully."), HttpStatus.OK);
+            authService.resetPassword(changePasswordRequest);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
         }
+        return new ResponseEntity<>(new ApiResponse(true, "Your password was changed successfully"), HttpStatus.OK);
     }
 }

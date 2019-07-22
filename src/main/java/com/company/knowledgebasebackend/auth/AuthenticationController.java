@@ -52,7 +52,7 @@ public class AuthenticationController {
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
         }
-        return new ResponseEntity<>(new ApiResponse(true, "Signup successful."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(true, "Registration successful"), HttpStatus.OK);
     }
 
 

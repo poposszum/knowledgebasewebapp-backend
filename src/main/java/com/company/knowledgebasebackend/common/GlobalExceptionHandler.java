@@ -17,13 +17,6 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ApiRequestException.class)
-    public final ResponseEntity<ErrorModel> handleUserNotFoundExeption(ApiRequestException e, WebRequest webRequest){
-        ErrorModel errorModel = new ErrorModel(new Date(), e.getMessage(), webRequest.getDescription(false));
-
-        return new ResponseEntity<>(errorModel, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(BadCredentialsException.class)
     public final ResponseEntity<ErrorModel> handleBadCredentialsException(BadCredentialsException e, WebRequest webRequest){
         ErrorModel errorModel = new ErrorModel(new Date(), e.getMessage(), webRequest.getDescription(false));
@@ -43,6 +36,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorModel errorDetails = new ErrorModel(new Date(), e.getBindingResult().getFieldError().getDefaultMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
-
-
 }
