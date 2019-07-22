@@ -2,7 +2,7 @@
 ## Getting Started
 ###### Please follow the instructions in order to run the full project on your local machine for testing purposes.
 ### Installing
-###### If you do not have an up-to-date [JDk](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html), download and install Amazon Coretto's latest version. After the installation you should check if everything is alright, by typing in the git bash window the following command:
+###### If you do not have an up-to-date [JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html), download and install Amazon Coretto's latest version. After the installation you should check if everything is alright, by typing in the git bash window the following command:
 `java --version`
 ###### If you done everything right you should see something like this:
 
