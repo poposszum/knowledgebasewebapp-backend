@@ -13,7 +13,7 @@ OpenJDK 64-Bit Server VM Corretto-11.0.3.7.1 (build 11.0.3+7-LTS, mixed mode)
 ###### In order to start the application navigate to the folder which contains the .jar file, start a git bash and type:
  `java -jar "your .jar file name".jar`
 ###### The application should start with no problem, and you can start the testing process.
-###### You can reach the website on http://localhost8080
+###### You can reach the website on http://localhost:8080
 ## Disclaimer
 ###### This is an early version with a lot of bugs!
 ###### After restarting the program, the content of the database will be cleaned!
