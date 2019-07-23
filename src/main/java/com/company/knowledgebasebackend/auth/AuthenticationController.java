@@ -4,6 +4,7 @@ import com.company.knowledgebasebackend.common.ApiResponse;
 import com.company.knowledgebasebackend.common.JwtAuthenticationResponse;
 import com.company.knowledgebasebackend.common.AuthException;
 import com.company.knowledgebasebackend.user.UserEntity;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class AuthenticationController {
             }
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
-        } catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             throw new BadCredentialsException(e.getMessage());
         }
         return jwtToken;
@@ -51,6 +52,8 @@ public class AuthenticationController {
             authService.signup(signUpRequest);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
+        } catch (MongoException e) {
+            throw new MongoException(e.getMessage());
         }
         return new ResponseEntity<>(new ApiResponse(true, "Registration successful"), HttpStatus.OK);
     }

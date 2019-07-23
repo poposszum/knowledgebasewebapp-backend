@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
@@ -90,12 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/reset")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/users/**")
-                .permitAll()
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
 
 }

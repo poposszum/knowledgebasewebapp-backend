@@ -4,6 +4,7 @@ import com.company.knowledgebasebackend.common.ApiResponse;
 import com.company.knowledgebasebackend.common.AuthException;
 import com.company.knowledgebasebackend.user.UserEntity;
 import com.company.knowledgebasebackend.user.UserService;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,8 @@ public class PasswordResetController {
             return new ResponseEntity<>(new ApiResponse(true, authService.generateKey(passwordReset, request).toString()), HttpStatus.OK);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
+        } catch (MongoException e) {
+            throw new MongoException(e.getMessage());
         }
     }
 
@@ -46,6 +49,8 @@ public class PasswordResetController {
             authService.resetPassword(changePasswordRequest);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
+        } catch (MongoException e) {
+            throw new MongoException(e.getMessage());
         }
         return new ResponseEntity<>(new ApiResponse(true, "Your password was changed successfully"), HttpStatus.OK);
     }

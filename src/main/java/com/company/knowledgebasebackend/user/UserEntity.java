@@ -49,5 +49,4 @@ public class UserEntity implements Serializable {
     private String password;
     private List<String> roles = new ArrayList<>();
     private PasswordResetKey passwordResetKey;
-
 }

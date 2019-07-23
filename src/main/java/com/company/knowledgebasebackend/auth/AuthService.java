@@ -4,6 +4,7 @@ import com.company.knowledgebasebackend.common.AuthException;
 import com.company.knowledgebasebackend.common.JwtAuthenticationResponse;
 import com.company.knowledgebasebackend.user.UserEntity;
 import com.company.knowledgebasebackend.user.UserService;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,6 +33,8 @@ public class AuthService {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    String errMsg = "Could not save user";
+
     /**
      * The following method is logging in the users.
      * Firstly checks if the credentials are correct, then generates the unique jwt token.
@@ -48,7 +51,7 @@ public class AuthService {
                             loginRequest.getPassword()
                     )
             );
-        } catch (BadCredentialsException ex) {
+        } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Login failed");
         }
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -79,9 +82,13 @@ public class AuthService {
                 .build();
 
         if (userService.save(userEntity) == null)
-            throw new AuthException("Could not save user.");
+            throw new AuthException(errMsg);
 
-        userService.save(userEntity);
+        try {
+            userService.save(userEntity);
+        } catch (MongoException e) {
+            throw new MongoException(errMsg);
+        }
     }
 
     /**
@@ -106,11 +113,11 @@ public class AuthService {
 
         user.setPasswordResetKey(passwordResetKey);
 
-        if (userService.save(user) == null || user.getPasswordResetKey().getResetKey() == null) {
-            throw new AuthException(errorMsg);
+        try {
+            userService.save(user);
+        } catch (MongoException e) {
+            throw new MongoException(errMsg);
         }
-
-        userService.save(user);
 
         // this line is only for testing purposes, this will be changed soon!
         return new StringBuilder("http://localhost:8080/changepassword?resetKey=" + user.getPasswordResetKey().getResetKey());
@@ -135,7 +142,11 @@ public class AuthService {
 
         user.setPasswordResetKey(null);
 
-        userService.save(user);
+        try {
+            userService.save(user);
+        } catch (MongoException e) {
+            throw new MongoException(errMsg);
+        }
     }
 }
 
