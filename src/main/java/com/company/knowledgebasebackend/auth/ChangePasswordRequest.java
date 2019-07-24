@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * Contains the password reset entity from the request
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

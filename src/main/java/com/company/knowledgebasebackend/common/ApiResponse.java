@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Contains a response form.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

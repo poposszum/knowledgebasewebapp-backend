@@ -2,9 +2,7 @@ package com.company.knowledgebasebackend.auth;
 
 import com.company.knowledgebasebackend.common.ApiResponse;
 import com.company.knowledgebasebackend.common.JwtAuthenticationResponse;
-import com.company.knowledgebasebackend.common.AuthException;
 import com.company.knowledgebasebackend.user.UserEntity;
-import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,25 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
- * This controller-class handles the requests to sign up and sign in users.
+ * Handles the requests to sign up and sign in users.
  */
-
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
-
     @Autowired
     private AuthService authService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/signin")
     public JwtAuthenticationResponse authenticateUser(@RequestBody UserEntity loginRequest) throws AuthException {
-
         JwtAuthenticationResponse jwtToken = authService.signin(loginRequest);
-
         try {
             if (jwtToken == null) {
                 throw new AuthException("Login failed");
@@ -47,13 +40,10 @@ public class AuthenticationController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody UserEntity signUpRequest) throws AuthException {
-
         try {
             authService.signup(signUpRequest);
         } catch (AuthException e) {
             throw new AuthException(e.getMessage());
-        } catch (MongoException e) {
-            throw new MongoException(e.getMessage());
         }
         return new ResponseEntity<>(new ApiResponse(true, "Registration successful"), HttpStatus.OK);
     }

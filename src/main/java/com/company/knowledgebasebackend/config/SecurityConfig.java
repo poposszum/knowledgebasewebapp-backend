@@ -85,6 +85,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/v1/auth/**")
                 .permitAll()
+                .antMatchers("/api/v1/articles/**")
+                .hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/api/v1/forgot-password/**")
                 .permitAll()
                 .antMatchers("/reset")

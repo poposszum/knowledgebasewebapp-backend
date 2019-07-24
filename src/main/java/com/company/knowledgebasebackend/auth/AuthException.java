@@ -1,4 +1,4 @@
-package com.company.knowledgebasebackend.common;
+package com.company.knowledgebasebackend.auth;
 
 public class AuthException extends Exception {
     public AuthException() {

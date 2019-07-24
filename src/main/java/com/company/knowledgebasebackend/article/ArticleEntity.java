@@ -1,6 +1,7 @@
 package com.company.knowledgebasebackend.article;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -12,11 +13,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class contains the article entities.
+ * Contains the article entities.
  */
 
 @Document(collection = "Articles")
 @Data
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class ArticleEntity {
@@ -28,4 +30,8 @@ public class ArticleEntity {
     private List<ObjectId> authors = new ArrayList<>();
     private Date dateCreated = new Date();
     private Date dateModified = new Date();
+
+    public void addAuthor(ObjectId id) {
+        this.authors.add(id);
+    }
 }

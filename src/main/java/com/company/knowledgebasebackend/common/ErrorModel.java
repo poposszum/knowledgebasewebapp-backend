@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * Contains an error model form.
+ */
 @Data
 @AllArgsConstructor
 public class ErrorModel {

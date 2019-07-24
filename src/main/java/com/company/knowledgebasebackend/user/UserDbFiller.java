@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Fills the database with user entities.
+ */
 @Service
 public class UserDbFiller implements CommandLineRunner {
 
