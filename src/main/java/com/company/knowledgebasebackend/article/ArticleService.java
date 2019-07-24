@@ -77,7 +77,7 @@ public class ArticleService {
      * Edits an existing article.
      * Checks if the user from the jwt token exists, then searches by ObjectId for the article which will be edited.
      * Updates the article, then sets the last modification date to the current date.
-     * If the user who requested an edit have already edited the article, nothing happens, otherwise the editors ObjectId is added to the authors list.
+     * If the user who requested an edit has already edited the article, nothing happens, otherwise the editors ObjectId is added to the authors list.
      * Saves the edited article to the database.
      * @param editArticleRequest
      * @param request
